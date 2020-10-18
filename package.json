@@ -4,20 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack serve",
-    "build": "webpack --mode production"
+    "dev": " webpack-dev-server --mode development --open",
+    "build": "cross-env NODE_ENV=production webpack --mode production"
   },
   "author": "antosha33",
   "license": "ISC",
   "devDependencies": {
+    "copy-webpack-plugin": "^6.2.1",
+    "cross-env": "^7.0.2",
     "css-loader": "^5.0.0",
     "file-loader": "^6.1.1",
     "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.0.0",
+    "resolve-url-loader": "^3.1.1",
     "sass": "^1.27.0",
     "sass-loader": "^10.0.3",
     "style-loader": "^2.0.0",
-    "webpack": "^5.1.2",
-    "webpack-cli": "^4.0.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   }
 }

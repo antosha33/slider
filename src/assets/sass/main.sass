@@ -1,0 +1,230 @@
+// @import './fonst.sass'
+
+$nav-color: #4F681E
+
+.container
+  margin: 0px 2vw
+  position: relative
+  .next
+    position: absolute
+    right: 0px
+    top: 50%
+  .prev
+    position: absolute
+    top: 50%
+    left: 0px
+  .prev, .next  
+    &:hover
+      cursor: pointer
+  .wrapp
+    position: relative
+    .square
+      position: absolute
+      width: 40px
+      height: 40px
+      border: 1px $nav-color solid
+    .arrow 
+      position: absolute
+      top: 20px
+      left: 15px
+      background-color: $nav-color
+      width: 43px
+      height: 1px
+      &:after
+        position: absolute
+        width: 15px
+        height: 1px
+        background-color: $nav-color
+        content:''
+        transform-origin: 0 0
+        transform: rotate(-30deg)
+      &:before
+        position: absolute
+        width: 15px
+        height: 1px
+        background-color: $nav-color
+        content:''
+        transform-origin: 0 0
+        transform: rotate(30deg)
+  .wrap,.reverse
+    transform-origin: 0px 20px
+    transform: scale(-1,-1)
+  .pagination
+    position: absolute
+    bottom: -40px
+    width: 250px
+    left: calc(50% - 125px)
+    ul
+      display: flex
+      justify-content: space-around
+      padding: 0
+      li
+        display: inline-block
+        width: 10px
+        height: 10px
+        border-radius: 10px
+        background-color: #BDBDBD
+        &:hover
+          cursor: pointer
+      li.active
+        background-color: $nav-color
+
+.slider-wrapper
+  max-width: 1200px
+  margin: auto
+  position: relative
+  overflow: hidden
+  padding-top: 50px
+  .slider
+    --item-per-screen: 4
+    --item-width: calc(100%/var(--item-per-screen))
+    --item-count: 12
+    width: calc(var(--item-width)*var(--item-count))
+    display: grid
+    grid-auto-flow: column
+    transform: translate3d(0px,0px,0px)
+    position: relative
+    padding-bottom: 5px
+
+    .slide
+      user-select: none
+      width: auto
+      position: relative
+      padding: 0px 5px
+      .slider-wrapper
+        font-size: 12px
+        font-family: 'Helios', Arial, sans-serif
+        max-width: 100%
+        margin: auto
+        background: #FFFFFF
+        border-radius: 22px 0px
+        filter: drop-shadow(0px 3px 24px rgba(0, 0, 0, 0.08))
+        padding-top: 5px
+        .image
+          display: block
+          width: 245px
+          height: 245px
+          margin: auto
+          img
+            pointer-events: none
+            height: 100%
+            display: block
+            margin: auto
+        .labels
+          position: absolute
+          height: 85px
+          left: 10px
+          top: 10px
+          .label
+            position: absolute         
+            height: 20px
+            left: 0px
+            top: 0px
+            .promo
+              width: 91px
+              position: absolute
+              height: 100% 
+              background: #AE40C7
+              border-radius: 16px 0px
+              display: grid
+              justify-content: center
+              align-content: center
+            .latest
+              @extend .promo
+              width: 73px
+              top: 23px
+              background: #8dc63f
+            .recommendation
+              @extend .promo
+              width: 106px
+              top: 49px
+              background: #47337A
+          span
+            display: block
+            color: #fff
+      .info
+        padding: 0px 20px 7.5px 20px
+        .status
+          display: flex
+          justify-content: space-between
+          font-size: 14px  
+          .existing
+            color: #8DC63F
+          .code
+            font-family: HeliosLightC, Arial, sans-serif
+            color: #828282
+        .text
+          p
+            font-family: 'Helios', Arial, sans-serif
+            font-size: 15px
+            font-weight: 400
+        .cart
+          display: grid
+          grid-auto-flow: column
+          .price
+            font-family: Helios, Arial, sans-serif
+            font-size: 24px
+            color: #181717
+            align-self: flex-end
+          .old-price
+            display: block
+            align-self: flex-end
+            font-family: HeliosLightC, Arial, sans-serif
+            font-size: 18px
+            color: #828282
+            vertical-align: bottom
+            text-decoration: line-through
+          .add-to-cart
+            position: relative
+            background-image: url('../img/cart.png')
+            width: 36px
+            height: 36px
+            background-size: contain
+            background-position: center
+            justify-self: end
+            .cart-count
+              position: absolute
+              left: 13px
+              width: 21px
+              height: 15px
+              border-radius: 100px
+              background-color: #8DC63F
+              color: #fff
+              font-size: 12px
+              text-align: center
+      &:hover
+        // background-color: red
+    &:hover
+      cursor: grabbing
+  .smooth
+    transition: transform .3s ease
+
+
+@media (max-width: 1200px)
+  .container
+    .slider-wrapper
+      max-width: 1020px
+@media (max-width: 1100px)
+  .container
+    margin: 0px
+    .slider-wrapper
+      max-width: 768px
+      .slider
+        --item-per-screen: 3
+@media (max-width: 768px)
+  .container
+    .slider-wrapper
+      max-width: 600px
+      .slider
+        --item-per-screen: 2
+@media (max-width: 768px)
+  .container
+    .slider-wrapper
+      max-width: 260px
+      .slider
+        --item-per-screen: 1
+
+
+
+
+
