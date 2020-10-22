@@ -133,16 +133,16 @@ const changePagination = () => {
   let li = Array.from(document.querySelectorAll('.pagination li'));
   let liNum = Math.abs(getCurrentTranslateX()) / slideWidth;
   // if(getCurrentTranslateX() === )
-  if(getCurrentTranslateX() === itemPerScreen*slideWidth) liNum = itemPerScree + 1;
-  if(Math.abs(getCurrentTranslateX()) === itemWidth-slideWidth*itemPerScreen*2) liNum = 0;
-  if(Math.abs(getCurrentTranslateX()) > itemWidth-slideWidth*itemPerScreen*2) 
-  // console.log(li)
+  if (getCurrentTranslateX() === itemPerScreen * slideWidth) liNum = itemPerScree + 1;
+  if (Math.abs(getCurrentTranslateX()) === itemWidth - slideWidth * itemPerScreen * 2) liNum = 0;
+  if (Math.abs(getCurrentTranslateX()) > itemWidth - slideWidth * itemPerScreen * 2) liNum = Math.abs(getCurrentTranslateX()) / slideWidth
+  liNum = liNum % li.length;
 
-  // let liNum = Math.abs(i%li.length);
+  // console.log(liNum % li.length);
   // console.log(slideWidth * itemCount - slideWidth * itemPerScreen * 2);
   // if (Math.abs(getCurrentTranslateX()) === slideWidth * itemCount - slideWidth * itemPerScreen * 2) liNum = 0;
   // if(i <= 0) i = itemCount-itemPerScreen*2 -1;
-  console.log(liNum);
+  // console.log(liNum);
 
   li.forEach((li) => {
     li.classList.remove('active');
