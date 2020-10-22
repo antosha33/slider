@@ -21,7 +21,7 @@ module.exports = {
   devServer: {
     inline: true,
     port: 8080,
-    host: '192.168.31.232',
+    // host: '192.168.31.232',
   },
   module: {
     rules: [
