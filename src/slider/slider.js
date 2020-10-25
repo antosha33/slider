@@ -1,6 +1,7 @@
 import '../assets/sass/main.sass';
 import { lazyLoading } from '../lazyLoading/lazyLoading';
 
+
 const $ = (className) => {
   const el = document.querySelector(className);
   return el;
@@ -163,7 +164,7 @@ const changePosition = (tx) => {
       el.style.setProperty('transform', `translate3d(${-loopTxBefore}px,0px,0px)`);
       translateX = getCurrentTranslateX();
     }
-      , 300)
+      , 200)
   }
   if (translateX === -(itemWidth - slideWidth * itemPerScreen)) {
     setTimeout(() => {
@@ -171,7 +172,7 @@ const changePosition = (tx) => {
       el.style.setProperty('transform', `translate3d(${-loopTxAfter}px,0px,0px)`);
       translateX = getCurrentTranslateX();
     }
-      , 300)
+      , 200)
   }
 
 }
