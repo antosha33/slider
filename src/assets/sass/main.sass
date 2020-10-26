@@ -50,10 +50,9 @@ $nav-color: #4F681E
     transform-origin: 0px 20px
     transform: scale(-1,-1)
   .pagination
-    position: absolute
-    bottom: -40px
-    width: 250px
-    left: calc(50% - 125px)
+    position: relative
+    width: 90%
+    margin: auto
     ul
       display: flex
       justify-content: space-around
@@ -76,7 +75,7 @@ $nav-color: #4F681E
   overflow: hidden
   padding-top: 50px
   .slider
-    height: 80vh
+    height: 450px
     --item-per-screen: 4
     --item-width: calc(100%/var(--item-per-screen))
     width: calc(var(--item-width)*var(--item-count))
