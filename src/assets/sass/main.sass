@@ -76,9 +76,9 @@ $nav-color: #4F681E
   overflow: hidden
   padding-top: 50px
   .slider
+    height: 80vh
     --item-per-screen: 4
     --item-width: calc(100%/var(--item-per-screen))
-    --item-count: 20
     width: calc(var(--item-width)*var(--item-count))
     display: grid
     grid-auto-flow: column
@@ -224,9 +224,9 @@ $nav-color: #4F681E
   display: grid
   justify-content: center
   align-items: center
-  background-color: lighten(grey, 40%)
   grid-auto-flow: column
   opacity: 1
+  background-color: #fff
   transition: all .3s ease
 
   
@@ -278,7 +278,7 @@ $nav-color: #4F681E
       max-width: 600px
       .slider
         --item-per-screen: 2
-@media (max-width: 768px)
+@media (max-width: 620px)
   .container
     .slider-wrapper
       max-width: 260px

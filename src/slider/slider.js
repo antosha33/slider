@@ -8,13 +8,12 @@ const $ = (className) => {
 };
 
 const el = $('.slider');
-const itemCount = getComputedStyle(el).getPropertyValue('--item-count');
-const itemPerScreen = getComputedStyle(el).getPropertyValue('--item-per-screen');
-const itemWidth = parseInt(getComputedStyle(el).width);
-const slideWidth = itemWidth / parseInt(itemCount);
-let translateX = 0;
-let i = parseInt(itemPerScreen);
-
+let itemCount;
+let itemPerScreen;
+let itemWidth;
+let slideWidth;
+let translateX;
+let i = 0;
 
 const getCurrentTranslateX = () => {
   let transform = el.style.transform;
@@ -22,26 +21,24 @@ const getCurrentTranslateX = () => {
   return transform ? parseInt(transform.match(regExp)[1]) : 0;
 }
 
-const changeSlide = () => {
-  return function (where) {
-    switch (where) {
-      case 'next':
-        i += 1;
-        // if (Math.floor(Math.abs(getCurrentTranslateX())) >= (itemWidth - (slideWidth * itemPerScreen) - slideWidth/2)) return;
-        translateX -= itemWidth / itemCount
-        changePosition(translateX);
-        lazyLoading(4);
-        break;
-      case 'prev':
-        i -= 1;
-        // if (translateX >= 0) return;
-        translateX += itemWidth / itemCount
-        changePosition(translateX);
-        lazyLoading(4);
-        break;
-      default:
-        return
-    }
+const changeSlide = where => {
+  switch (where) {
+    case 'next':
+      i += 1;
+      // if (Math.floor(Math.abs(getCurrentTranslateX())) >= (itemWidth - (slideWidth * itemPerScreen) - slideWidth/2)) return;
+      translateX -= itemWidth / itemCount
+      changePosition(translateX);
+      lazyLoading(6);
+      break;
+    case 'prev':
+      i -= 1;
+      // if (translateX >= 0) return;
+      translateX += itemWidth / itemCount
+      changePosition(translateX);
+      lazyLoading(6);
+      break;
+    default:
+      return
   }
 }
 
@@ -132,18 +129,21 @@ const dragAndDrop = () => {
 const changePagination = () => {
 
   let li = Array.from(document.querySelectorAll('.pagination li'));
-  let liNum = Math.abs(getCurrentTranslateX()) / slideWidth;
-  // if(getCurrentTranslateX() === )
-  if (getCurrentTranslateX() === itemPerScreen * slideWidth) liNum = itemPerScree + 1;
-  if (Math.abs(getCurrentTranslateX()) === itemWidth - slideWidth * itemPerScreen * 2) liNum = 0;
-  if (Math.abs(getCurrentTranslateX()) > itemWidth - slideWidth * itemPerScreen * 2) liNum = Math.abs(getCurrentTranslateX()) / slideWidth
-  liNum = liNum % li.length;
+  i = (Math.abs(translateX) - Math.abs(itemPerScreen * slideWidth)) / slideWidth;
+  if (i < 0) i = itemCount - (itemPerScreen * 2 + 1);
+  // console.log(itemCount-itemPerScreen*2+2);
 
-  // console.log(liNum % li.length);
-  // console.log(slideWidth * itemCount - slideWidth * itemPerScreen * 2);
-  // if (Math.abs(getCurrentTranslateX()) === slideWidth * itemCount - slideWidth * itemPerScreen * 2) liNum = 0;
-  // if(i <= 0) i = itemCount-itemPerScreen*2 -1;
-  // console.log(liNum);
+
+
+
+  // let liNum = Math.abs(getCurrentTranslateX()) / slideWidth;
+
+  // if (getCurrentTranslateX() === itemPerScreen * slideWidth) liNum = itemPerScreen + 1;
+  // if (Math.abs(getCurrentTranslateX()) === itemWidth - slideWidth * itemPerScreen * 2) liNum = 0;
+  // if (Math.abs(getCurrentTranslateX()) > itemWidth - slideWidth * itemPerScreen * 2) liNum = Math.abs(getCurrentTranslateX()) / slideWidth
+  // liNum = liNum % li.length;
+
+  const liNum = i % (itemCount - itemPerScreen * 2);
 
   li.forEach((li) => {
     li.classList.remove('active');
@@ -157,6 +157,7 @@ const changePosition = (tx) => {
   const loopTxAfter = slideWidth * itemPerScreen;
   el.style.setProperty('transform', `translate3d(${tx}px,0px,0px)`);
   translateX = getCurrentTranslateX();
+  
   changePagination();
   if (translateX === 0) {
     setTimeout(() => {
@@ -180,7 +181,7 @@ const changePosition = (tx) => {
 const pagination = () => {
   const count = Math.floor(itemCount - itemPerScreen * 2);
   const arr = new Array(count).fill('<li></li>');
-  arr[i] = '<li class="active"></li>'
+  arr[0] = '<li class="active"></li>'
   $('.pagination').innerHTML = `<ul>${arr.join('')}</ul>`;
   let li = document.querySelectorAll('.pagination li');
   li = Array.prototype.slice.call(li);
@@ -205,8 +206,8 @@ const pagination = () => {
 }
 
 export const loop = () => {
-  const beforeDuplicate = Array.from(document.querySelectorAll('.slide')).splice(0, 4).map(node => node.cloneNode(true));
-  const afterDuplicate = Array.from(document.querySelectorAll('.slide')).splice(-4).map(node => node.cloneNode(true));
+  const beforeDuplicate = Array.from(document.querySelectorAll('.slide')).splice(0, itemPerScreen).map(node => node.cloneNode(true));
+  const afterDuplicate = Array.from(document.querySelectorAll('.slide')).splice(-itemPerScreen).map(node => node.cloneNode(true));
   beforeDuplicate.forEach((node) => el.appendChild(node));
   afterDuplicate.reverse().forEach((node) => {
     el.insertBefore(node, el.firstChild)
@@ -215,12 +216,18 @@ export const loop = () => {
   translateX = getCurrentTranslateX();
 }
 
-const slider = changeSlide();
+export const addFeatures = () => {
+  itemCount = getComputedStyle(el).getPropertyValue('--item-count');
+  itemPerScreen = getComputedStyle(el).getPropertyValue('--item-per-screen');
+  itemWidth = parseInt(getComputedStyle(el).width);
+  slideWidth = itemWidth / parseInt(itemCount);
+  translateX = 0;
+  $('.next').addEventListener('click', () => changeSlide('next'));
+  $('.prev').addEventListener('click', () => changeSlide('prev'));
+  dragAndDrop();
+  pagination();
+}
 
-$('.next').addEventListener('click', () => slider('next'));
 
-$('.prev').addEventListener('click', () => slider('prev'));
 
-dragAndDrop();
-pagination();
 
