@@ -23,7 +23,7 @@ document.addEventListener('scroll', (ev) => {
       const goodsHTML = goods.map((good) => {
         return `
             <div class="slide">
-            <div class="slider-wrapper">
+            <div class="slide-wrapper">
               <div class="labels">
                 <div class="label">
                   <div class="promo">
@@ -45,9 +45,9 @@ document.addEventListener('scroll', (ev) => {
                   </div>
                 </div>
               </div>
-              <div class="image">
+              <a href="/" class="image">
                 <img class="lazy" data-src="${good.img}" alt="">
-              </div>
+              </a>
               <div class="info">
                 <div class="status">       
                   ${good.isExist ? '<div class="existing "> В наличии </div>' : '<div class="existing existing-false"> Нет в наличии </div>'}       
@@ -66,7 +66,18 @@ document.addEventListener('scroll', (ev) => {
                   <div class="add-to-cart"><div class="cart-count">4</div></div>
                 </div>
               </div>
-            </div>
+              <div class="footer">
+              ${good.isExist ? 
+              `<div class="counter">
+              <div class="decrease">-</div>
+              <div class="count">1</div>
+              <div class="increase">+</div>
+              </div>
+              <button class="button">В корзину</div>
+              </div>`:
+              `<button class="button isnt-exist">Сообщить о ниличии</div>`
+            }
+              </div>
           </div>
         `  });
       slider.innerHTML = goodsHTML.join('');

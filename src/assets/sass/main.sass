@@ -74,6 +74,7 @@ $nav-color: #4F681E
   position: relative
   overflow: hidden
   padding-top: 50px
+  padding-bottom: 25px
   .slider
     height: 450px
     --item-per-screen: 4
@@ -84,13 +85,17 @@ $nav-color: #4F681E
     transform: translate3d(0px,0px,0px)
     position: relative
     padding-bottom: 5px
-
     .slide
       user-select: none
       width: auto
       position: relative
       padding: 0px 5px
-      .slider-wrapper
+      .slide-wrapper
+        &:active, &:visited
+          color: black
+
+      .slide-wrapper
+        text-decoration: none
         font-size: 12px
         font-family: 'Helios', Arial, sans-serif
         max-width: 100%
@@ -105,7 +110,6 @@ $nav-color: #4F681E
           height: 245px
           margin: auto
           img
-            pointer-events: none
             height: 100%
             display: block
             margin: auto
@@ -141,62 +145,108 @@ $nav-color: #4F681E
           span
             display: block
             color: #fff
-      .info
-        padding: 0px 20px 7.5px 20px
-        .status
-          display: flex
-          justify-content: space-between
-          font-size: 14px  
-          .existing
-            color: #8DC63F
-          .existing-false
-            color: #C74A2C
-          .code
-            font-family: HeliosLightC, Arial, sans-serif
-            color: #828282
-        .text
-          p
-            font-family: 'Helios', Arial, sans-serif
-            font-size: 15px
-            font-weight: 400
-        .cart
-          display: grid
-          grid-auto-flow: column
-          .price
-            font-family: Helios, Arial, sans-serif
-            font-size: 24px
-            color: #181717
-            align-self: flex-end
-          .old-price
-            display: block
-            align-self: flex-end
-            font-family: HeliosLightC, Arial, sans-serif
+        .info
+          padding: 0px 20px 7.5px 20px
+          .status
+            padding-top: 5px
+            display: flex
+            justify-content: space-between
+            font-size: 14px  
+            .existing
+              color: #8DC63F
+            .existing-false
+              color: #C74A2C
+            .code
+              font-family: HeliosLightC, Arial, sans-serif
+              color: #828282
+          .text
+            height: 70px
+            p
+              font-family: 'Helios', Arial, sans-serif
+              font-size: 15px
+              font-weight: 400
+          .cart
+            min-height: 40px
+            display: grid
+            grid-auto-flow: column
+            .price
+              font-family: Helios, Arial, sans-serif
+              font-size: 24px
+              color: #181717
+              align-self: flex-end
+            .old-price
+              display: block
+              align-self: flex-end
+              font-family: HeliosLightC, Arial, sans-serif
+              font-size: 18px
+              color: #828282
+              vertical-align: bottom
+              text-decoration: line-through
+            .add-to-cart
+              position: relative
+              background-image: url('../img/cart.png')
+              width: 36px
+              height: 36px
+              background-size: contain
+              background-position: center
+              justify-self: end
+              align-self: end
+              .cart-count
+                position: absolute
+                left: 13px
+                width: 21px
+                height: 15px
+                border-radius: 100px
+                background-color: #8DC63F
+                color: #fff
+                font-size: 12px
+                text-align: center
+        .footer
+          display: none
+          position: relative
+          width: 100%
+          height: 100%
+          filter: drop-shadow(0px 3px 24px rgba(0, 0, 0, 0.08))
+          .counter
+            display: flex
+            margin: auto
             font-size: 18px
-            color: #828282
-            vertical-align: bottom
-            text-decoration: line-through
-          .add-to-cart
-            position: relative
-            background-image: url('../img/cart.png')
-            width: 36px
-            height: 36px
-            background-size: contain
-            background-position: center
-            justify-self: end
-            .cart-count
-              position: absolute
-              left: 13px
-              width: 21px
-              height: 15px
-              border-radius: 100px
-              background-color: #8DC63F
-              color: #fff
-              font-size: 12px
-              text-align: center
-    &:hover
-      cursor: grabbing
+            width: 60%
+            text-align: center
+            justify-content: space-between  
+            & +
+              padding: 10px  
+            .increase, .decrease
+              color: $nav-color
+              font-size: 22px   
+          button
+            margin-top: 10px
+            height: 30px
+            background-color: $nav-color
+            width: 80%
+            display: block
+            border-radius: 7px
+            color: #fff
+            border: none
+            text-align: center
+            margin: auto
+          .isnt-exist
+            color: #C74A2C
+            background-color: #fff
+            border-color: #C74A2C
+            border: 1px solid
+            margin-top: 25px
+      .slide-wrapper
+        &:hover
+          .footer
+            display: block
+            cursor: pointer
+      &:hover
+        cursor: grabbing
+
+
   .smooth
-    transition: transform .2s ease
+    transition: transform .3s ease
 
 
 

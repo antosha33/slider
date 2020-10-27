@@ -14,6 +14,7 @@ let itemWidth;
 let slideWidth;
 let translateX;
 let i = 0;
+let currentSlide;
 
 const getCurrentTranslateX = () => {
   let transform = el.style.transform;
@@ -22,18 +23,16 @@ const getCurrentTranslateX = () => {
 }
 
 const changeSlide = where => {
-  lazyLoading(6);
+  lazyLoading(i + itemPerScreen * 2);
   switch (where) {
     case 'next':
       i += 1;
-      // if (Math.floor(Math.abs(getCurrentTranslateX())) >= (itemWidth - (slideWidth * itemPerScreen) - slideWidth/2)) return;
       translateX -= itemWidth / itemCount
       changePosition(translateX);
       changePagination();
       break;
     case 'prev':
       i -= 1;
-      // if (translateX >= 0) return;
       translateX += itemWidth / itemCount
       changePosition(translateX);
       changePagination();
@@ -57,12 +56,15 @@ const dragAndDrop = () => {
     locked = false;
     translateX = getCurrentTranslateX();
     clientXStart = unify(ev).clientX;
-    lazyLoading(6);
+    lazyLoading(i + itemPerScreen * 2);
+
   }
 
-  const dragEnd = () => {
+  const dragEnd = (ev) => {
+    ev.preventDefault();
     el.classList.add('smooth');
     locked = true;
+    const prevTranslateX = translateX;
     if (translateX > itemWidth) {
       return el.style.setProperty('transform', `translate3d(${itemWidth}px, 0px, 0px)`);
     }
@@ -74,10 +76,9 @@ const dragAndDrop = () => {
       let tx;
       if (diff > 0) tx = round(Math.floor(getCurrentTranslateX() / slideWidth));
       if (diff < 0) tx = round(Math.ceil(getCurrentTranslateX() / slideWidth));
-      // i = i - (Math.abs(getCurrentTranslateX()) - Math.abs(translateX)) / slideWidth;
-      // changePagination();
       changePosition(tx * -1);
       translateX = getCurrentTranslateX();
+      changePagination(prevTranslateX);
     }
     else {
       el.style.setProperty('transform', `translate3d(${translateX}px, 0px, 0px)`);
@@ -90,11 +91,18 @@ const dragAndDrop = () => {
     el.classList.add('smooth');
     locked = true;
     el.style.setProperty('transform', `translate3d(${translateX}px, 0px, 0px)`);
+    if(currentSlide && currentSlide.classList.contains('image')){
+      currentSlide.style['pointer-events'] = 'auto';
+    }
   }
 
   const dragOn = (e) => {
     e.preventDefault();
     if (!locked) {
+      if(e.target.parentNode.classList.contains('image')){
+        currentSlide = e.target.parentNode;
+        currentSlide.style['pointer-events'] = 'none';
+      }
       if (getCurrentTranslateX() >= slideWidth * 0.2) {
         el.classList.add('smooth');
         locked = true;
@@ -126,12 +134,14 @@ const dragAndDrop = () => {
   $('.slider').addEventListener('mousedown', dragStart);
   $('.slider').addEventListener('mouseup', dragEnd);
   $('.slider').addEventListener('mousemove', dragOn);
-  // $('.slider').addEventListener('mouseleave', dragLeave)
+  $('.slider').addEventListener('mouseleave', dragLeave)
 };
 
 const changePagination = (prevTranslateX) => {
-  // return () => {
     let li = Array.from(document.querySelectorAll('.pagination li'));
+    if(prevTranslateX){
+      i += (Math.abs(prevTranslateX)-Math.abs(getCurrentTranslateX()))/slideWidth*-1;
+    }
     if (i < 0) {
       i = itemCount - (itemPerScreen * 2 + 1);
     }
@@ -140,7 +150,6 @@ const changePagination = (prevTranslateX) => {
       li.classList.remove('active');
     })
     li[liNum].classList.add('active');
-  // }
 }
 
 const changePosition = (tx) => {
@@ -165,7 +174,10 @@ const changePosition = (tx) => {
     }
       , 200)
   }
-
+  if(currentSlide && currentSlide.classList.contains('image')){
+    currentSlide.style['pointer-events'] = 'auto';
+  }
+  lazyLoading(i + itemPerScreen * 2);
 }
 
 const pagination = () => {
@@ -193,6 +205,26 @@ const pagination = () => {
 
 }
 
+const counter = () => {
+  const increaseHandler = (ev) => {
+    const countEl = ev.target.parentNode.querySelector('.count')
+    let count = parseInt(countEl.innerHTML);
+    count +=1;
+    countEl.innerHTML = count;
+  }
+  const decreaseHandler = (ev) => {
+    const countEl = ev.target.parentNode.querySelector('.count')
+    let count = parseInt(countEl.innerHTML);
+    count -=1;
+    if(count === 0) return;
+    countEl.innerHTML = count;
+  }
+  Array.from(document.querySelectorAll('.counter')).forEach(counter => {
+    counter.querySelector('.increase').addEventListener('click', increaseHandler);
+    counter.querySelector('.decrease').addEventListener('click', decreaseHandler);
+  })
+}
+
 export const loop = () => {
   const beforeDuplicate = Array.from(document.querySelectorAll('.slide')).splice(0, itemPerScreen).map(node => node.cloneNode(true));
   const afterDuplicate = Array.from(document.querySelectorAll('.slide')).splice(-itemPerScreen).map(node => node.cloneNode(true));
@@ -214,6 +246,7 @@ export const addFeatures = () => {
   $('.prev').addEventListener('click', () => changeSlide('prev'));
   dragAndDrop();
   pagination();
+  counter();
 }
 
 
