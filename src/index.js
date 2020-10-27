@@ -5,9 +5,6 @@ import { loop, addFeatures } from './slider/slider';
 
 let isInit = false;
 
-const slider = document.querySelector('.slider');
-const itemPerScreen = getComputedStyle(slider).getPropertyValue('--item-per-screen');
-
 const removeLoader = () => {
   const loader = document.querySelector('.loader')
   loader.style.opacity = 0;
@@ -18,8 +15,12 @@ const removeLoader = () => {
 
 document.addEventListener('scroll', (ev) => {
   if (ev.target.documentElement.scrollTop / ev.target.documentElement.clientHeight > 0.5 && isInit === false) {
+    isInit = true;
     (async function init() {
       const goods = await getGoods();
+      const slider = document.querySelector('.slider');
+      const itemPerScreen = getComputedStyle(slider).getPropertyValue('--item-per-screen');
+      slider.style.setProperty('--item-count', goods.length + itemPerScreen * 2);
       const goodsHTML = goods.map((good) => {
         return `
             <div class="slide">
@@ -81,14 +82,12 @@ document.addEventListener('scroll', (ev) => {
           </div>
         `  });
       slider.innerHTML = goodsHTML.join('');
-      slider.style.setProperty('--item-count', goods.length + itemPerScreen * 2);
       lazyLoading(4);
       addFeatures();
       loop();
       setTimeout(() => {
         removeLoader()
       }, 200)
-      isInit = true;
     })()
   };
 })

@@ -27,13 +27,13 @@ const changeSlide = where => {
   switch (where) {
     case 'next':
       i += 1;
-      translateX -= itemWidth / itemCount
+      translateX -= itemWidth / parseInt(itemCount);
       changePosition(translateX);
       changePagination();
       break;
     case 'prev':
       i -= 1;
-      translateX += itemWidth / itemCount
+      translateX += itemWidth / parseInt(itemCount);
       changePosition(translateX);
       changePagination();
       break;
