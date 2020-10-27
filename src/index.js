@@ -45,7 +45,7 @@ document.addEventListener('scroll', (ev) => {
                   </div>
                 </div>
               </div>
-              <a href="/" class="image">
+              <a href="https://antosha33.github.io/slider" class="image">
                 <img class="lazy" data-src="${good.img}" alt="">
               </a>
               <div class="info">

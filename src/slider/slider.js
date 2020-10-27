@@ -52,7 +52,6 @@ const dragAndDrop = () => {
   let clientXEnd = null
 
   const dragStart = (ev) => {
-    ev.preventDefault();
     locked = false;
     translateX = getCurrentTranslateX();
     clientXStart = unify(ev).clientX;
@@ -61,7 +60,6 @@ const dragAndDrop = () => {
   }
 
   const dragEnd = (ev) => {
-    ev.preventDefault();
     el.classList.add('smooth');
     locked = true;
     const prevTranslateX = translateX;
@@ -97,8 +95,7 @@ const dragAndDrop = () => {
   }
 
   const dragOn = (e) => {
-    e.preventDefault();
-    if (!locked) {
+       if (!locked) {
       if(e.target.parentNode.classList.contains('image')){
         currentSlide = e.target.parentNode;
         currentSlide.style['pointer-events'] = 'none';
